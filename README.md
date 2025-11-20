@@ -4,19 +4,6 @@ AI-powered log analysis using TimescaleDB and PL/Python (Isolation Forest).
 
 **Key Insight:** All ML processing happens **inside the database** — keep the AI near the data for maximum performance.
 
-## Why This Beats Cloud Solutions
-
-| Feature | CloudWatch | This Product |
-|---------|------------|--------------|
-| Real-time anomaly detection | ❌ | ✅ (Isolation Forest) |
-| Cost per customer | ❌ | ✅ |
-| Multi-cloud | ❌ | ✅ |
-| Semantic log understanding | ❌ | ✅ (Planned) |
-| Root cause hints | ❌ | ✅ |
-| Predictive alerts | ❌ | ✅ |
-| Developer-friendly UI | ❌ | ✅ |
-| Pricing transparency | ❌ | ✅ |
-
 ## Overview
 
 **Problem:** Cloud logging shows you infrastructure metrics. You need to know:
