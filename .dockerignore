@@ -1,0 +1,29 @@
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+IMPLEMENTATION.md
+INSTALL.md
+
+# Scripts
+scripts/
+
+# Build artifacts
+target/
+ingestion-api/target/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+docker-compose.yml
+Dockerfile.timescaledb
+.dockerignore
+
+# Ingestion API (not needed in TimescaleDB image)
+ingestion-api/

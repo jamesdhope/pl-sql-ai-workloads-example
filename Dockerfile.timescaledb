@@ -1,0 +1,32 @@
+# TimescaleDB with PL/Rust extension for in-database ML
+# Using Debian-based PostgreSQL image for pgrx compatibility
+FROM postgres:16-bullseye
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    pkg-config \
+    libssl-dev \
+    clang \
+    libclang-dev \
+    postgresql-server-dev-16 \
+    postgresql-plpython3-16 \
+    python3-pip \
+    gnupg \
+    lsb-release \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+# Install Python packages for PL/Python extension
+RUN pip3 install scikit-learn numpy
+
+RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ $(lsb_release -c -s) main" > /etc/apt/sources.list.d/timescaledb.list \
+    && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add - \
+    && apt-get update \
+    && apt-get install -y timescaledb-2-postgresql-16 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN echo "shared_preload_libraries = 'timescaledb'" >> /usr/share/postgresql/postgresql.conf.sample
+
+
+# Use the default postgres/timescaledb entrypoint

@@ -1,0 +1,40 @@
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# PGX
+.pgrx/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.sql~
+pgdata/
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+
+# Build artifacts
+dist/
+build/
+
+# Archive and old files
+/archive/

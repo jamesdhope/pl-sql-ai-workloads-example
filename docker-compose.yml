@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  timescaledb:
+    build:
+      context: .
+      dockerfile: Dockerfile.timescaledb
+    image: anomaly_timescaledb:latest
+    container_name: anomaly_timescaledb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: anomaly_detection
+    ports:
+      - "5432:5432"
+    volumes:
+      - timescale_data:/var/lib/postgresql/data
+      - ./sql:/sql
+  # Removed unused Rust extension volume
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ingestion-api:
+    build:
+      context: ./ingestion-api
+      dockerfile: Dockerfile
+    container_name: anomaly_ingestion_api
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@timescaledb:5432/anomaly_detection
+      RUST_LOG: info,sqlx=warn
+    ports:
+      - "3000:3000"
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+    restart: unless-stopped
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: anomaly_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - timescaledb
+
+volumes:
+  timescale_data:
